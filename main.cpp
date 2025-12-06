@@ -23,6 +23,13 @@ class PDA{
                     return false;
                 }
             }
+
+            if (currentState == State::Q1 && stack.top() == 'Z'){
+                currentState == State::Q_FINAL;
+                return true;
+            }
+            
+            return false;
         }
 
     private:
@@ -35,8 +42,35 @@ class PDA{
             }
 
             char top = stack.top();
+            //for reading a's
+            if (currentState == State::Q0){
+                if (c== 'A'){
+                    if (top == 'Z' || top == 'A'){
+                        stack.push('A');
+                        return true;
+                    }
+                }
+                if (c=='B'){
+                    if (top == 'A'){
+                        stack.pop();
+                        //means its time to start reading b
+                        currentState = State::Q1;
+                        return true;
+                    }
+                }
+            }
+            
+            //for reading b's
+            if (currentState == State::Q1){
+                if(c=='B'){
+                    if(top=='A'){
+                        stack.pop();
+                        return true;
+                    }
+                }
+            }
 
-
+            return false;
         }
 };
 
