@@ -24,7 +24,8 @@ class PDA{
                 }
             }
 
-            if (currentState == State::Q1 && stack.top() == 'Z'){
+            //Q0 state is empty str, Q1 state is after reading all b and stack back to only z
+            if ((currentState == State::Q1 || currentState == State::Q0) && stack.top() == 'Z'){
                 currentState == State::Q_FINAL;
                 return true;
             }
