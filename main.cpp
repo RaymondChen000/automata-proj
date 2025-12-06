@@ -76,5 +76,17 @@ class PDA{
 
 
 int main() { 
+    PDA pda;
+    std::string input;
+    std::cout << "Enter a string of 'A's and 'B's: ";
+    std::cin >> input;
+
+    if(pda.valid(input)){
+        std::cout << "Accepted";
+    }
+    else{
+        std::cout << "Rejected";
+    }
+
     return 0;
 }
