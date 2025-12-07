@@ -16,12 +16,29 @@ class PDA{
 
         //return true if valid false if not
         bool valid(const std::string& s){   
-            //for each char in the input string s
-            for(char c : s){
-                //check if it is valid so far
-                if(step(c) == false){
-                    return false;
-                }
+            //table header
+            cout << "Step\tUnread Input\tTop of Stack\tState\n";
+            cout << "---------------------------------------------\n";
+            //first row
+            cout << 0 << "\t" << s << "\t\t" << stack.top() << "\t\t" << getState() << "\n";
+
+            //process each char in the string
+            //for i is 0 to size of string, get each char at string[i] and call step function. Then get the unread string and print the table row for this step
+            for(int i = 0; i<s.size(); i++){
+                    char c = s[i];
+                    if (step(c) == false){
+                        return false;
+                    }
+
+                    //get remaining string now that we took char at i to the stack
+                    string unread;
+                    if(i+1 < s.size()){
+                        unread = s.substr(i+1);  //unread is from current char+1 to end
+                    }
+                    else{
+                        unread = ""; //nothing left
+                    }
+                    cout << i+1 << "\t" << unread << "\t\t" << stack.top() << "\t\t" << getState() << "\n";
             }
 
             //Q0 state is empty str, Q1 state is after reading all b and stack back to only z
@@ -37,6 +54,21 @@ class PDA{
         State currentState;
         std::stack<char> stack;
 
+        //get current state as string
+        string getState() const{
+            switch(currentState){
+                case State::Q0:
+                    return "Q0";
+                case State::Q1:
+                    return "Q1";
+                case State::Q_FINAL:
+                    return "Q_FINAL";
+            }
+            //return unknown state
+            return "?";
+        }
+
+        //process one step of the pda, return true if valid transition, false if not
         bool step(char c){
             if (stack.empty()){
                 return false;
